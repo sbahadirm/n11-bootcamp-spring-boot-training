@@ -56,11 +56,6 @@ public class Kategori {
 
     @Override
     public String toString() {
-        return "Kategori{" +
-                "id=" + id +
-                ", adi='" + adi + '\'' +
-                ", kirilim=" + kirilim +
-                ", ustKategori=" + ustKategori +
-                '}';
+        return id == null ? "" : id.toString();
     }
 }

@@ -81,12 +81,6 @@ public class Urun {
 
     @Override
     public String toString() {
-        return "Urun{" +
-                "id=" + id +
-                ", adi='" + adi + '\'' +
-                ", fiyat=" + fiyat +
-                ", kayitTarihi=" + kayitTarihi +
-                ", kategori=" + kategori +
-                '}';
+        return id == null ? "" : id.toString();
     }
 }
