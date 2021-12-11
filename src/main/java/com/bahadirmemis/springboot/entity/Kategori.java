@@ -1,10 +1,21 @@
 package com.bahadirmemis.springboot.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "KATEGORI")
-public class Kategori {
+public class Kategori  implements Serializable {
+
+    public Kategori(Long id, String adi, Long kirilim, Kategori ustKategori) {
+        this.id = id;
+        this.adi = adi;
+        this.kirilim = kirilim;
+        this.ustKategori = ustKategori;
+    }
+
+    public Kategori() {
+    }
 
     @SequenceGenerator(name = "generator", sequenceName = "KATEGORI_ID_SEQ")
     @Id

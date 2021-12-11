@@ -1,6 +1,9 @@
 package com.bahadirmemis.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -15,7 +18,19 @@ import java.util.Date;
 @Table(
         name = "URUN"
 )
-public class Urun {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "kategori"})
+public class Urun implements Serializable {
+
+    public Urun() {
+    }
+
+    public Urun(Long id, String adi, BigDecimal fiyat, Date kayitTarihi, Kategori kategori) {
+        this.id = id;
+        this.adi = adi;
+        this.fiyat = fiyat;
+        this.kayitTarihi = kayitTarihi;
+        this.kategori = kategori;
+    }
 
     @SequenceGenerator(name = "generator", sequenceName = "URUN_ID_SEQ")
     @Id
