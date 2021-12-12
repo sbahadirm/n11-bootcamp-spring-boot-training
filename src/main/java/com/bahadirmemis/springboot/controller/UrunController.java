@@ -8,6 +8,8 @@ import com.bahadirmemis.springboot.exception.UrunNotFoundException;
 import com.bahadirmemis.springboot.service.entityservice.KategoriEntityService;
 import com.bahadirmemis.springboot.service.entityservice.UrunEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +33,7 @@ public class UrunController {
     }
 
     @GetMapping("/{id}")
-    public Urun findUrunById(@PathVariable Long id){
+    public EntityModel<Urun> findUrunById(@PathVariable Long id){
 
         Urun urun = urunEntityService.findById(id);
 
@@ -39,7 +41,16 @@ public class UrunController {
             throw new UrunNotFoundException("Urun not found. id: " + id);
         }
 
-        return urun;
+        WebMvcLinkBuilder linkToUrun = WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(this.getClass())
+                        .findAllUrunList()
+        );
+
+        EntityModel entityModel = EntityModel.of(urun);
+
+        entityModel.add(linkToUrun.withRel("tum-urunler"));
+
+        return entityModel;
     }
 
     @GetMapping("/dto/{id}")
