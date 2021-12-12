@@ -46,4 +46,8 @@ public class UrunEntityService {
     public long count(){
         return urunDao.count();
     }
+
+    public List<Urun> findAllByKategoriOrderByIdDesc(Long kategoriId){
+        return urunDao.findAllByKategoriOrderByIdDesc(kategoriId);
+    }
 }

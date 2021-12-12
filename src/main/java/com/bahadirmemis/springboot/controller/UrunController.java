@@ -113,6 +113,16 @@ public class UrunController {
         urunEntityService.deleteById(id);
     }
 
+    @GetMapping("kategoriler/{kategoriId}")
+    public List<UrunDetayDto> findAllUrunByKategoriId(@PathVariable Long kategoriId){
+
+        List<Urun> urunList = urunEntityService.findAllByKategoriOrderByIdDesc(kategoriId);
+
+        List<UrunDetayDto> urunDetayDtoList = UrunConverter.INSTANCE.convertAllUrunListToUrunDetayDtoList(urunList);
+
+        return urunDetayDtoList;
+    }
+
     private SimpleFilterProvider getUrunFilterProvider(String filterName) {
         SimpleBeanPropertyFilter filter = getUrunFilter();
 

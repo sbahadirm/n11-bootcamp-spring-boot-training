@@ -44,4 +44,12 @@ public class KategoriEntityService {
     public long count(){
         return kategoriDao.count();
     }
+
+    public List<Kategori> findAllByUstKategoriIsNull(){
+        return kategoriDao.findAllByUstKategoriIsNullOrderByAdiDesc();
+    }
+
+    public List<Kategori> findAllByAdiEndsWith(String adi){
+        return kategoriDao.findAllByAdiEndsWith(adi);
+    }
 }

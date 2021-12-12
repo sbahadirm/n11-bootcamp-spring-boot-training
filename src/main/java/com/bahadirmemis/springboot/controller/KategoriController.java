@@ -1,9 +1,13 @@
 package com.bahadirmemis.springboot.controller;
 
 import com.bahadirmemis.springboot.converter.KategoriConverter;
+import com.bahadirmemis.springboot.converter.UrunConverter;
 import com.bahadirmemis.springboot.dto.KategoriDto;
+import com.bahadirmemis.springboot.dto.UrunDetayDto;
 import com.bahadirmemis.springboot.entity.Kategori;
+import com.bahadirmemis.springboot.entity.Urun;
 import com.bahadirmemis.springboot.service.entityservice.KategoriEntityService;
+import com.bahadirmemis.springboot.service.entityservice.UrunEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,9 @@ public class KategoriController {
 
     @Autowired
     private KategoriEntityService kategoriEntityService;
+
+    @Autowired
+    private UrunEntityService urunEntityService;
 
     @GetMapping("")
     public List<KategoriDto> findAll(){
@@ -78,5 +85,15 @@ public class KategoriController {
     @DeleteMapping("/{id}")
     public void delete(Long id){
         kategoriEntityService.deleteById(id);
+    }
+
+    // localhost:8080/api/kategoriler/{id}/urunler
+    @GetMapping("/{id}/urunler")
+    public List<UrunDetayDto> findAllUrunByKategoriId(@PathVariable Long id){
+        List<Urun> urunList = urunEntityService.findAllByKategoriOrderByIdDesc(id);
+
+        List<UrunDetayDto> urunDetayDtoList = UrunConverter.INSTANCE.convertAllUrunListToUrunDetayDtoList(urunList);
+
+        return urunDetayDtoList;
     }
 }
