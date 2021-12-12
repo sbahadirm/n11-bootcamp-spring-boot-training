@@ -1,8 +1,8 @@
 package com.bahadirmemis.springboot.controller;
 
+import com.bahadirmemis.springboot.converter.UrunConverter;
 import com.bahadirmemis.springboot.dto.UrunDetayDto;
 import com.bahadirmemis.springboot.dto.UrunDto;
-import com.bahadirmemis.springboot.entity.Kategori;
 import com.bahadirmemis.springboot.entity.Urun;
 import com.bahadirmemis.springboot.exception.UrunNotFoundException;
 import com.bahadirmemis.springboot.service.entityservice.KategoriEntityService;
@@ -72,7 +72,7 @@ public class UrunController {
 
         Urun urun = urunEntityService.findById(id);
 
-        UrunDetayDto urunDetayDto = convertUrunToUrunDetayDto(urun);
+        UrunDetayDto urunDetayDto = UrunConverter.INSTANCE.convertUrunToUrunDetayDto(urun);
 
         return urunDetayDto;
     }
@@ -80,7 +80,7 @@ public class UrunController {
     @PostMapping("")
     public ResponseEntity<Object> saveUrun(@RequestBody UrunDto urunDto){
 
-        Urun urun = convertUrunDtoToUrun(urunDto);
+        Urun urun = UrunConverter.INSTANCE.convertUrunDtoToUrun(urunDto);
 
         urun = urunEntityService.save(urun);
 
@@ -99,25 +99,4 @@ public class UrunController {
         urunEntityService.deleteById(id);
     }
 
-    private Urun convertUrunDtoToUrun(UrunDto urunDto) {
-        Kategori kategori = kategoriEntityService.findById(urunDto.getKategoriId());
-
-        Urun urun = new Urun();
-        urun.setAdi(urunDto.getAdi());
-        urun.setFiyat(urunDto.getFiyat());
-        urun.setKayitTarihi(urunDto.getKayitTarihi());
-        urun.setKategori(kategori);
-
-        return urun;
-    }
-
-    private UrunDetayDto convertUrunToUrunDetayDto(Urun urun) {
-        Kategori kategori = kategoriEntityService.findById(urun.getKategori().getId());
-
-        UrunDetayDto urunDetayDto = new UrunDetayDto();
-        urunDetayDto.setUrunAdi(urun.getAdi());
-        urunDetayDto.setUrunFiyati(urun.getFiyat());
-        urunDetayDto.setKategoriAdi(kategori.getAdi());
-        return urunDetayDto;
-    }
 }
