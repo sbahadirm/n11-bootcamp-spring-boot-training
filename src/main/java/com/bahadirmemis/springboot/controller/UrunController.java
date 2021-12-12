@@ -1,16 +1,22 @@
 package com.bahadirmemis.springboot.controller;
 
 import com.bahadirmemis.springboot.dto.UrunDetayDto;
+import com.bahadirmemis.springboot.dto.UrunDto;
 import com.bahadirmemis.springboot.entity.Kategori;
 import com.bahadirmemis.springboot.entity.Urun;
+import com.bahadirmemis.springboot.exception.UrunNotFoundException;
 import com.bahadirmemis.springboot.service.entityservice.KategoriEntityService;
 import com.bahadirmemis.springboot.service.entityservice.UrunEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/urunler/")
 public class UrunController {
 
     @Autowired
@@ -19,23 +25,24 @@ public class UrunController {
     @Autowired
     private KategoriEntityService kategoriEntityService;
 
-    @GetMapping("/merhaba")
-    public String merhaba(){
-        return "Merhaba Dünya";
-    }
-
-    @GetMapping("/urunler")
+    @GetMapping("")
     public List<Urun> findAllUrunList(){
         return urunEntityService.findAll();
     }
 
-    @GetMapping("/urunler/{id}")
+    @GetMapping("/{id}")
     public Urun findUrunById(@PathVariable Long id){
-        return urunEntityService.findById(id);
+
+        Urun urun = urunEntityService.findById(id);
+
+        if (urun == null){
+            throw new UrunNotFoundException("Urun not found. id: " + id);
+        }
+
+        return urun;
     }
 
-
-    @GetMapping("/urunler/dto/{id}")
+    @GetMapping("/dto/{id}")
     public UrunDetayDto findUrunDtoById(@PathVariable Long id){
 
         Urun urun = urunEntityService.findById(id);
@@ -43,6 +50,40 @@ public class UrunController {
         UrunDetayDto urunDetayDto = convertUrunToUrunDetayDto(urun);
 
         return urunDetayDto;
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Object> saveUrun(@RequestBody UrunDto urunDto){
+
+        Urun urun = convertUrunDtoToUrun(urunDto);
+
+        urun = urunEntityService.save(urun);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{id}")
+                .buildAndExpand(urun.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteUrun(@PathVariable Long id){
+
+        urunEntityService.deleteById(id);
+    }
+
+    private Urun convertUrunDtoToUrun(UrunDto urunDto) {
+        Kategori kategori = kategoriEntityService.findById(urunDto.getKategoriId());
+
+        Urun urun = new Urun();
+        urun.setAdi(urunDto.getAdi());
+        urun.setFiyat(urunDto.getFiyat());
+        urun.setKayitTarihi(urunDto.getKayitTarihi());
+        urun.setKategori(kategori);
+
+        return urun;
     }
 
     private UrunDetayDto convertUrunToUrunDetayDto(Urun urun) {
