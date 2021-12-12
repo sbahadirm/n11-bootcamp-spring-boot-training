@@ -1,8 +1,11 @@
 package com.bahadirmemis.springboot.dto;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
+@JsonFilter("UrunDtoFilter")
 public class UrunDto {
 
     private Long id;

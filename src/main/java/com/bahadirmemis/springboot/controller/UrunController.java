@@ -35,9 +35,9 @@ public class UrunController {
 
         List<Urun> urunList = urunEntityService.findAll();
 
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("id");
+        String filterName = "UrunFilter";
 
-        SimpleFilterProvider filters = new SimpleFilterProvider().addFilter("UrunFilter", filter);
+        SimpleFilterProvider filters = getUrunFilterProvider(filterName);
 
         MappingJacksonValue mapping = new MappingJacksonValue(urunList);
 
@@ -47,7 +47,7 @@ public class UrunController {
     }
 
     @GetMapping("/{id}")
-    public EntityModel<Urun> findUrunById(@PathVariable Long id){
+    public MappingJacksonValue findUrunById(@PathVariable Long id){
 
         Urun urun = urunEntityService.findById(id);
 
@@ -60,17 +60,31 @@ public class UrunController {
                         .findAllUrunList()
         );
 
-        EntityModel entityModel = EntityModel.of(urun);
+        UrunDto urunDto = UrunConverter.INSTANCE.convertUrunToUrunDto(urun);
+
+        String filterName = "UrunDtoFilter";
+
+        SimpleFilterProvider filters = getUrunFilterProvider(filterName);
+
+        EntityModel entityModel = EntityModel.of(urunDto);
 
         entityModel.add(linkToUrun.withRel("tum-urunler"));
 
-        return entityModel;
+        MappingJacksonValue mapping = new MappingJacksonValue(entityModel);
+
+        mapping.setFilters(filters);
+
+        return mapping;
     }
 
-    @GetMapping("/dto/{id}")
+    @GetMapping("/detail/{id}")
     public UrunDetayDto findUrunDtoById(@PathVariable Long id){
 
         Urun urun = urunEntityService.findById(id);
+
+        if (urun == null){
+            throw new UrunNotFoundException("Urun not found. id: " + id);
+        }
 
         UrunDetayDto urunDetayDto = UrunConverter.INSTANCE.convertUrunToUrunDetayDto(urun);
 
@@ -99,4 +113,13 @@ public class UrunController {
         urunEntityService.deleteById(id);
     }
 
+    private SimpleFilterProvider getUrunFilterProvider(String filterName) {
+        SimpleBeanPropertyFilter filter = getUrunFilter();
+
+        return new SimpleFilterProvider().addFilter(filterName, filter);
+    }
+
+    private SimpleBeanPropertyFilter getUrunFilter() {
+        return SimpleBeanPropertyFilter.filterOutAllExcept("id", "adi", "fiyat", "kayitTarihi");
+    }
 }

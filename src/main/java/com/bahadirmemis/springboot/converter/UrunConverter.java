@@ -16,6 +16,9 @@ public interface UrunConverter {
     @Mapping(source = "kategoriId", target = "kategori.id")
     Urun convertUrunDtoToUrun(UrunDto urunDto);
 
+    @Mapping(target = "kategoriId", source = "kategori.id")
+    UrunDto convertUrunToUrunDto(Urun urun);
+
     @Mapping(source = "fiyat", target = "urunFiyati")
     @Mapping(source = "adi", target = "urunAdi")
     @Mapping(source = "kategori.adi", target = "kategoriAdi")

@@ -20,7 +20,7 @@ import java.util.Date;
         name = "URUN"
 )
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "kategori"})
-//@JsonFilter("UrunFilter")
+@JsonFilter("UrunFilter")
 public class Urun implements Serializable {
 
     public Urun() {

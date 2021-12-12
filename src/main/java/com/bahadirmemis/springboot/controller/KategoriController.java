@@ -1,10 +1,15 @@
 package com.bahadirmemis.springboot.controller;
 
+import com.bahadirmemis.springboot.converter.KategoriConverter;
+import com.bahadirmemis.springboot.dto.KategoriDto;
 import com.bahadirmemis.springboot.entity.Kategori;
 import com.bahadirmemis.springboot.service.entityservice.KategoriEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,10 +20,13 @@ public class KategoriController {
     private KategoriEntityService kategoriEntityService;
 
     @GetMapping("")
-    public List<Kategori> findAll(){
+    public List<KategoriDto> findAll(){
+
         List<Kategori> kategoriList = kategoriEntityService.findAll();
 
-        return kategoriList;
+        List<KategoriDto> kategoriDtoList = KategoriConverter.INSTANCE.convertAllKategoriListToKategoriDtoList(kategoriList);
+
+        return kategoriDtoList;
     }
 
     @GetMapping("/{id}")
@@ -30,19 +38,41 @@ public class KategoriController {
     }
 
     @PostMapping("")
-    public Kategori save(@RequestBody Kategori kategoriInput){ //TODO: Input değeri dto tipinde olmalı
+    public ResponseEntity<Object> save(@RequestBody KategoriDto kategoriDto){ //TODO: Input değeri dto tipinde olmalı
 
-        Kategori kategori = kategoriEntityService.save(kategoriInput);
+        Kategori kategori = KategoriConverter.INSTANCE.convertKategoriDtoToKategori(kategoriDto);
 
-        return kategori;
+        //TODO: Check it
+        if (kategori.getUstKategori() != null && kategori.getUstKategori().getId() == null){
+            kategori.setUstKategori(null);
+        }
+
+        kategori = kategoriEntityService.save(kategori);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(kategori.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("")
-    public Kategori update(@RequestBody Kategori kategoriInput){//TODO: Input değeri dto tipinde olmalı
+    public KategoriDto update(@RequestBody KategoriDto kategoriDto){//TODO: Input değeri dto tipinde olmalı
 
-        Kategori kategori = kategoriEntityService.save(kategoriInput);
+        Kategori kategori = KategoriConverter.INSTANCE.convertKategoriDtoToKategori(kategoriDto);
 
-        return kategori;
+        //TODO: Check it
+        if (kategori.getUstKategori() != null && kategori.getUstKategori().getId() == null){
+            kategori.setUstKategori(null);
+        }
+
+        kategori = kategoriEntityService.save(kategori);
+
+        KategoriDto kategoriDtoResult = KategoriConverter.INSTANCE.convertKategoriToKategoriDto(kategori);
+
+        return kategoriDtoResult;
     }
 
     @DeleteMapping("/{id}")
