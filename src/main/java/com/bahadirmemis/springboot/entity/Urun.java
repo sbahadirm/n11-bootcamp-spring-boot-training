@@ -1,5 +1,6 @@
 package com.bahadirmemis.springboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.util.Date;
         name = "URUN"
 )
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "kategori"})
+@JsonFilter("UrunFilter")
 public class Urun implements Serializable {
 
     public Urun() {
