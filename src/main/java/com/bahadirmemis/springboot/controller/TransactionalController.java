@@ -6,6 +6,7 @@ import com.bahadirmemis.springboot.transactional.ts3.Ts3Service1;
 import com.bahadirmemis.springboot.transactional.ts4.Ts4Service1;
 import com.bahadirmemis.springboot.transactional.ts5.Ts5Service1;
 import com.bahadirmemis.springboot.transactional.ts6.Ts6Service1;
+import com.bahadirmemis.springboot.transactional.ts7.Ts7Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts6Service1 ts6Service1;
+
+    @Autowired
+    private Ts7Service ts7Service;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -79,6 +83,14 @@ public class TransactionalController {
     @PostMapping("/ts6")
     public void ts6(){
         ts6Service1.save();
+    }
+
+    /**
+     * 7: non transactional olan bir yerde kayıt işlemi sırasında hata
+     */
+    @PostMapping("/ts7")
+    public void ts7(){
+        ts7Service.save();
     }
 
     /**
