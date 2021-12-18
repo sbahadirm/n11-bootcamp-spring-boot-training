@@ -18,10 +18,13 @@ public interface KategoriConverter {
     @Mapping(target = "ustKategoriId", source = "ustKategori.id")
     List<KategoriDto> convertAllKategoriListToKategoriDtoList(List<Kategori> kategoriList);
 
-//    @Mapping(target = "ustKategori.id", source = "ustKategoriId", expression = "java(null))
-//    @Mapping(target = "ustKategori.id", source = "ustKategoriId", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
-
-//    @Mapping(target = "ustKategori.id", expression = "java(kategoriDto.getUstKategoriId() == null ? null : " +
-//            "kategoriDto.getUstKategoriId())")
+    @Mapping(target = "ustKategori.id", source = "ustKategoriId")
     Kategori convertKategoriDtoToKategori(KategoriDto kategoriDto);
+
+    @AfterMapping
+    default void setNulls(@MappingTarget Kategori kategori, KategoriDto kategoriDto){
+        if (kategoriDto.getUstKategoriId() == null){
+            kategori.setUstKategori(null);
+        }
+    }
 }

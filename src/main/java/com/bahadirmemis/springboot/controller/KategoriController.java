@@ -49,11 +49,6 @@ public class KategoriController {
 
         Kategori kategori = KategoriConverter.INSTANCE.convertKategoriDtoToKategori(kategoriDto);
 
-        //TODO: Check it
-        if (kategori.getUstKategori() != null && kategori.getUstKategori().getId() == null){
-            kategori.setUstKategori(null);
-        }
-
         kategori = kategoriEntityService.save(kategori);
 
         URI uri = ServletUriComponentsBuilder

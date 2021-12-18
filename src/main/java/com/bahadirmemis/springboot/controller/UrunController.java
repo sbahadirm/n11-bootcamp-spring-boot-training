@@ -17,6 +17,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class UrunController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> saveUrun(@RequestBody UrunDto urunDto){
+    public ResponseEntity<Object> saveUrun(@Valid @RequestBody UrunDto urunDto){
 
         Urun urun = UrunConverter.INSTANCE.convertUrunDtoToUrun(urunDto);
 

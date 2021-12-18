@@ -2,6 +2,8 @@ package com.bahadirmemis.springboot.dto;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,8 +11,12 @@ import java.util.Date;
 public class UrunDto {
 
     private Long id;
+
+    @Size(min = 2)
     private String adi;
     private BigDecimal fiyat;
+
+    @Past
     private Date kayitTarihi;
     private Long kategoriId;
 

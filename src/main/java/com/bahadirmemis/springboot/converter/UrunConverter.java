@@ -1,11 +1,11 @@
 package com.bahadirmemis.springboot.converter;
 
+import com.bahadirmemis.springboot.dto.KategoriDto;
 import com.bahadirmemis.springboot.dto.UrunDetayDto;
 import com.bahadirmemis.springboot.dto.UrunDto;
+import com.bahadirmemis.springboot.entity.Kategori;
 import com.bahadirmemis.springboot.entity.Urun;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -30,4 +30,11 @@ public interface UrunConverter {
     @Mapping(source = "adi", target = "urunAdi")
     @Mapping(source = "kategori.adi", target = "kategoriAdi")
     List<UrunDetayDto> convertAllUrunListToUrunDetayDtoList(List<Urun> urunList);
+
+    @AfterMapping
+    default void setNulls(@MappingTarget final Urun urun, UrunDto urunDto){
+        if (urunDto.getKategoriId() == null){
+            urun.setKategori(null);
+        }
+    }
 }
