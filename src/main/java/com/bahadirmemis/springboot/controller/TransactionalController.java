@@ -1,15 +1,16 @@
 package com.bahadirmemis.springboot.controller;
 
-import com.bahadirmemis.springboot.transactional.ts15.Ts15Service1;
 import com.bahadirmemis.springboot.transactional.ts1.Ts1Service;
 import com.bahadirmemis.springboot.transactional.ts10.Ts10Service1;
 import com.bahadirmemis.springboot.transactional.ts11.Ts11Service1;
 import com.bahadirmemis.springboot.transactional.ts12.Ts12Service1;
 import com.bahadirmemis.springboot.transactional.ts13.Ts13Service1;
 import com.bahadirmemis.springboot.transactional.ts14.Ts14Service1;
+import com.bahadirmemis.springboot.transactional.ts15.Ts15Service1;
 import com.bahadirmemis.springboot.transactional.ts16.Ts16Service1;
 import com.bahadirmemis.springboot.transactional.ts17.Ts17Service1;
 import com.bahadirmemis.springboot.transactional.ts18.Ts18Service1;
+import com.bahadirmemis.springboot.transactional.ts19.Ts19Service1;
 import com.bahadirmemis.springboot.transactional.ts2.Ts2Service;
 import com.bahadirmemis.springboot.transactional.ts3.Ts3Service1;
 import com.bahadirmemis.springboot.transactional.ts4.Ts4Service1;
@@ -80,6 +81,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts18Service1 ts18Service1;
+
+    @Autowired
+    private Ts19Service1 ts19Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -229,4 +233,8 @@ public class TransactionalController {
      *
      * 19: transaction açıp kapatma maliyeti
      */
+    @PostMapping("/ts19")
+    public void ts19(){
+        ts19Service1.test();
+    }
 }
