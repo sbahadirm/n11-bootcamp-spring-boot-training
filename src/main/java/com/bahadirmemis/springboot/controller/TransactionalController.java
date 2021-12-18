@@ -8,6 +8,7 @@ import com.bahadirmemis.springboot.transactional.ts12.Ts12Service1;
 import com.bahadirmemis.springboot.transactional.ts13.Ts13Service1;
 import com.bahadirmemis.springboot.transactional.ts14.Ts14Service1;
 import com.bahadirmemis.springboot.transactional.ts16.Ts16Service1;
+import com.bahadirmemis.springboot.transactional.ts17.Ts17Service1;
 import com.bahadirmemis.springboot.transactional.ts2.Ts2Service;
 import com.bahadirmemis.springboot.transactional.ts3.Ts3Service1;
 import com.bahadirmemis.springboot.transactional.ts4.Ts4Service1;
@@ -72,6 +73,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts16Service1 ts16Service1;
+
+    @Autowired
+    private Ts17Service1 ts17Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -199,6 +203,14 @@ public class TransactionalController {
     @PostMapping("/ts16")
     public void ts16(){
         ts16Service1.save();
+    }
+
+    /**
+     * 17: toplu işlemlerinizi transactional olmayan yerde yapın.en hızlı senaryo
+     */
+    @PostMapping("/ts17")
+    public void ts17(){
+        ts17Service1.test();
     }
 
     /**
