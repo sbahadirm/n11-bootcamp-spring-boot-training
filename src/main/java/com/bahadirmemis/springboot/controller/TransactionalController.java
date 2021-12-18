@@ -1,0 +1,45 @@
+package com.bahadirmemis.springboot.controller;
+
+import com.bahadirmemis.springboot.transactional.ts1.Ts1Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/transactional")
+public class TransactionalController {
+
+    @Autowired
+    private Ts1Service ts1Service;
+
+    /**
+     * 1: transactional olmayan yerde kayıt işlemi
+     */
+    @PostMapping("/ts1")
+    public void ts1(){
+        ts1Service.save();
+    }
+
+
+    /**
+     *
+     * 2: transactional olan yerde kayıt işlemi
+     * 3: transactional olan yerden olmayan yere geçme
+     * 4: transactional olmayan yerden olan yere geçme
+     * 5: ikisi de transactional olan bir yerde kayıt işlemi
+     * 6: sadece transactional olan bir yerde kayıt işlemi sırasında hata
+     * 7: aynı class içinde requires new kullanımı.
+     * 8: requires new i farklı classa taşıma.
+     * 9: requires new ile hata almayanları commitleme.
+     * 10: mandatory transaction yok
+     * 11: mandatory transaction var
+     * 12: supports transaction var
+     * 13: supports transaction yok
+     * 14: not_suppoted (hızlı)
+     * 15: nested (desteklenmez)
+     * 16: toplu işlemlerinizi transactional olmayan yerde yapın.en hızlı senaryo
+     * 17: transaction açmasa bile transactional olan bir metotta işlem yapma kapatma maliyeti
+     * 18: transaction açıp kapatma maliyeti
+     */
+}
