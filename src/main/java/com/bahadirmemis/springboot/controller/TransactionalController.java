@@ -8,6 +8,7 @@ import com.bahadirmemis.springboot.transactional.ts5.Ts5Service1;
 import com.bahadirmemis.springboot.transactional.ts6.Ts6Service1;
 import com.bahadirmemis.springboot.transactional.ts7.Ts7Service;
 import com.bahadirmemis.springboot.transactional.ts8.Ts8Service;
+import com.bahadirmemis.springboot.transactional.ts9.Ts9Service1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts8Service ts8Service;
+
+    @Autowired
+    private Ts9Service1 ts9Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -106,9 +110,15 @@ public class TransactionalController {
     }
 
     /**
-     *
-     * 8: aynı class içinde requires new kullanımı.
      * 9: requires new i farklı classa taşıma.
+     */
+    @PostMapping("/ts9")
+    public void ts9(){
+        ts9Service1.save();
+    }
+
+    /**
+     *
      * 10: requires new ile hata almayanları commitleme.
      * 11: mandatory transaction yok
      * 12: mandatory transaction var
