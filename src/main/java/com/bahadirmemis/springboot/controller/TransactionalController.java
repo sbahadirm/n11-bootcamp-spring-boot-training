@@ -1,6 +1,7 @@
 package com.bahadirmemis.springboot.controller;
 
 import com.bahadirmemis.springboot.transactional.ts1.Ts1Service;
+import com.bahadirmemis.springboot.transactional.ts10.Ts10Service1;
 import com.bahadirmemis.springboot.transactional.ts2.Ts2Service;
 import com.bahadirmemis.springboot.transactional.ts3.Ts3Service1;
 import com.bahadirmemis.springboot.transactional.ts4.Ts4Service1;
@@ -44,6 +45,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts9Service1 ts9Service1;
+
+    @Autowired
+    private Ts10Service1 ts10Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -118,8 +122,15 @@ public class TransactionalController {
     }
 
     /**
-     *
      * 10: requires new ile hata almayanları commitleme.
+     */
+    @PostMapping("/ts10")
+    public void ts10(){
+        ts10Service1.save();
+    }
+
+    /**
+     *
      * 11: mandatory transaction yok
      * 12: mandatory transaction var
 
