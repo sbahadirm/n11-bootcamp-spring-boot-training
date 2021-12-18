@@ -1,5 +1,6 @@
 package com.bahadirmemis.springboot.controller;
 
+import com.bahadirmemis.springboot.transactional.ts15.Ts15Service1;
 import com.bahadirmemis.springboot.transactional.ts1.Ts1Service;
 import com.bahadirmemis.springboot.transactional.ts10.Ts10Service1;
 import com.bahadirmemis.springboot.transactional.ts11.Ts11Service1;
@@ -64,6 +65,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts14Service1 ts14Service1;
+
+    @Autowired
+    private Ts15Service1 ts15Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -175,6 +179,14 @@ public class TransactionalController {
     @PostMapping("/ts14")
     public void ts14(){
         ts14Service1.save();
+    }
+
+    /**
+     * 15: not_suppoted (hızlı)
+     */
+    @PostMapping("/ts15")
+    public void ts15(){
+        ts15Service1.save();
     }
 
     /**
