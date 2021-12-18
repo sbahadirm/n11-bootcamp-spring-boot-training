@@ -4,6 +4,7 @@ import com.bahadirmemis.springboot.transactional.ts1.Ts1Service;
 import com.bahadirmemis.springboot.transactional.ts2.Ts2Service;
 import com.bahadirmemis.springboot.transactional.ts3.Ts3Service1;
 import com.bahadirmemis.springboot.transactional.ts4.Ts4Service1;
+import com.bahadirmemis.springboot.transactional.ts5.Ts5Service1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,9 @@ public class TransactionalController {
 
     @Autowired
     private Ts4Service1 ts4Service1;
+
+    @Autowired
+    private Ts5Service1 ts5Service1;
 
     /**
      * 1: transactional olmayan yerde kayıt işlemi
@@ -58,8 +62,15 @@ public class TransactionalController {
     }
 
     /**
+     * 5: ikisi de transactional olan bir yerde kayıt işlemi
+     */
+    @PostMapping("/ts5")
+    public void ts5(){
+        ts5Service1.save();
+    }
+
+    /**
      *
-     * 4: transactional olmayan yerden olan yere geçme
      * 5: ikisi de transactional olan bir yerde kayıt işlemi
      * 6: sadece transactional olan bir yerde kayıt işlemi sırasında hata
      * 7: aynı class içinde requires new kullanımı.
