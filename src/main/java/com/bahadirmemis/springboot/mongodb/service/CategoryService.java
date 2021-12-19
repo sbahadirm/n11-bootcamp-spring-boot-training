@@ -1,31 +1,16 @@
 package com.bahadirmemis.springboot.mongodb.service;
 
 import com.bahadirmemis.springboot.mongodb.entity.Category;
-import com.bahadirmemis.springboot.mongodb.service.entityservice.CategoryEntityService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class CategoryService {
+public interface CategoryService {
 
-    @Autowired
-    private CategoryEntityService categoryEntityService;
+    List<Category> findAll();
 
-    public List<Category> findAll() {
-        return categoryEntityService.findAll();
-    }
+    Category findById(String id) ;
 
-    public Category findById(String id) {
-        return categoryEntityService.findById(id);
-    }
+    Category save(Category category);
 
-    public Category save(Category category) {
-        return categoryEntityService.save(category);
-    }
-
-    public void delete(String id) {
-        categoryEntityService.deleteById(id);
-    }
+    void delete(String id) ;
 }
