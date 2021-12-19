@@ -14,7 +14,7 @@ public class Product {
 
     private String name;
     private BigDecimal price;
-    private Date createDate;
+    private String createDate;
     private String categoryId;
 
     public String getId() {
@@ -41,11 +41,11 @@ public class Product {
         this.price = price;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
